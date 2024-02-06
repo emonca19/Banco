@@ -18,6 +18,7 @@ public class Invitado extends javax.swing.JFrame {
      */
     public Invitado(JFrame frame) {
         initComponents();
+        setLocationRelativeTo(frame);
         
     }
 
@@ -62,6 +63,11 @@ public class Invitado extends javax.swing.JFrame {
         });
 
         btnAtras.setText("Volver atrás");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,11 +114,22 @@ public class Invitado extends javax.swing.JFrame {
 
     private void btnRetiroSinCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetiroSinCuentaActionPerformed
         // TODO add your handling code here:
+        dispose();
+        RetiroSinCuenta retiro = new RetiroSinCuenta(this);
+        retiro.setVisible(true);
+        
     }//GEN-LAST:event_btnRetiroSinCuentaActionPerformed
 
     private void btnInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnInfoActionPerformed
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }//GEN-LAST:event_btnAtrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,11 +159,7 @@ public class Invitado extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Invitado().setVisible(true);
-            }
-        });
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -47,6 +47,11 @@ public class Menu extends javax.swing.JFrame {
         btnEmpleado.setBackground(new java.awt.Color(204, 204, 204));
         btnEmpleado.setFont(new java.awt.Font("Segoe UI Historic", 0, 14)); // NOI18N
         btnEmpleado.setText("Empleado");
+        btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpleadoActionPerformed(evt);
+            }
+        });
 
         btnCliente.setBackground(new java.awt.Color(153, 153, 153));
         btnCliente.setFont(new java.awt.Font("Segoe UI Historic", 0, 14)); // NOI18N
@@ -66,6 +71,11 @@ public class Menu extends javax.swing.JFrame {
         });
 
         btnCrearCuenta.setText("Quiero crear una cuenta...");
+        btnCrearCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCrearCuentaMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,6 +133,20 @@ public class Menu extends javax.swing.JFrame {
         abrirInvitado.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnInvitadoActionPerformed
+
+    private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
+        // TODO add your handling code here:
+        Empleado abrirEmpleado = new Empleado(this);
+        abrirEmpleado.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnEmpleadoActionPerformed
+
+    private void btnCrearCuentaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearCuentaMousePressed
+        // TODO add your handling code here:
+        RegistrarCliente registrarCliente = new RegistrarCliente(this);
+        registrarCliente.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCrearCuentaMousePressed
 
     /**
      * @param args the command line arguments

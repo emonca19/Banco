@@ -4,6 +4,8 @@
  */
 package presentacion;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author elimo
@@ -13,8 +15,9 @@ public class Empleado extends javax.swing.JFrame {
     /**
      * Creates new form Empleado
      */
-    public Empleado() {
+    public Empleado(JFrame frame) {
         initComponents();
+        setLocationRelativeTo(frame);
     }
 
     /**
@@ -48,6 +51,11 @@ public class Empleado extends javax.swing.JFrame {
         btnIngresar.setText("Ingresar");
 
         btnAtras.setText("Volver atras");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +106,13 @@ public class Empleado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -126,11 +141,7 @@ public class Empleado extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Empleado().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
