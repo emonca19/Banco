@@ -7,7 +7,8 @@ public class Cliente {
     private int idCliente;
     private int idNombre;
     private int idDomicilio;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
+    private String email;
 
     // Constructores
 
@@ -15,11 +16,20 @@ public class Cliente {
         // Constructor vacío
     }
 
-    public Cliente(int idCliente, int idNombre, int idDomicilio, Date fechaNacimiento) {
+    public Cliente(int idCliente, int idNombre, int idDomicilio, String fechaNacimiento, String email) {
         this.idCliente = idCliente;
         this.idNombre = idNombre;
         this.idDomicilio = idDomicilio;
         this.fechaNacimiento = fechaNacimiento;
+        this.email=email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     // Getters y Setters
@@ -48,11 +58,11 @@ public class Cliente {
         this.idDomicilio = idDomicilio;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

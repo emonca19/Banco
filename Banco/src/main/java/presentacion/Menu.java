@@ -143,8 +143,8 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnCrearCuentaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearCuentaMousePressed
         // TODO add your handling code here:
-        RegistrarCliente registrarCliente = new RegistrarCliente(this);
-        registrarCliente.setVisible(true);
+        CapturarDatos capturarDatos = new CapturarDatos(this);
+        capturarDatos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearCuentaMousePressed
 

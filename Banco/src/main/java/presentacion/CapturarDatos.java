@@ -4,11 +4,19 @@
  */
 package presentacion;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import entidadesPOJO.Domicilio;
+import entidadesPOJO.Nombre;
+
+import entidadesPOJO.Cliente;
+import entidadesPOJO.Cuenta;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 /**
  *
@@ -16,12 +24,19 @@ import javax.swing.JFrame;
  */
 public class CapturarDatos extends javax.swing.JFrame {
 
+    private int idNombre = 0;
+    private int idDomicilio = 0;
+    private int idCliente = 0;
+    private int idCuenta = 0;
+    private Timer temporizador;
+
     /**
      * Creates new form CapturarDatos
      */
     public CapturarDatos(JFrame frame) {
         initComponents();
         setLocationRelativeTo(frame);
+        txtID.setText(String.valueOf(idCliente));
     }
 
     /**
@@ -34,7 +49,6 @@ public class CapturarDatos extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel9 = new javax.swing.JLabel();
-        txtAño = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtCP = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -53,9 +67,19 @@ public class CapturarDatos extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtApellidoMaterno = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtDia = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtMes = new javax.swing.JTextField();
+        comboBoxDia = new javax.swing.JComboBox<>();
+        comboBoxMes = new javax.swing.JComboBox<>();
+        comboBoxAño = new javax.swing.JComboBox<>();
+        txtUsuario = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        btnVerContraseña = new javax.swing.JButton();
+        txtContraseña = new javax.swing.JPasswordField();
+        txtConfirmarContraseña = new javax.swing.JPasswordField();
+        txtID = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,21 +126,92 @@ public class CapturarDatos extends javax.swing.JFrame {
 
         jLabel8.setText("Año:");
 
+        comboBoxDia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                comboBoxDiaMousePressed(evt);
+            }
+        });
+
+        comboBoxMes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBoxMesMouseClicked(evt);
+            }
+        });
+
+        comboBoxAño.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboBoxAñoMouseClicked(evt);
+            }
+        });
+
+        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel14.setText("Usuario");
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel15.setText("Contraseña");
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel16.setText("Confirmar Contraseña:");
+
+        btnVerContraseña.setText("Ver");
+        btnVerContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnVerContraseñaMousePressed(evt);
+            }
+        });
+        btnVerContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerContraseñaActionPerformed(evt);
+            }
+        });
+
+        txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        txtID.setEditable(false);
+
+        jLabel5.setText("ID:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(252, 252, 252))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(btnAtras)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtUsuario))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtContraseña)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSiguiente)
+                        .addGap(44, 44, 44))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btnVerContraseña)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(btnAtras)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSiguiente))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -126,12 +221,13 @@ public class CapturarDatos extends javax.swing.JFrame {
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtEmail)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(txtDia)
-                                            .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtCP, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                                            .addComponent(comboBoxDia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(82, 82, 82)
@@ -145,32 +241,35 @@ public class CapturarDatos extends javax.swing.JFrame {
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-                                    .addComponent(txtMes, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCalle, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                                    .addComponent(txtCalle, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBoxMes, javax.swing.GroupLayout.Alignment.LEADING, 0, 131, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(49, 49, 49)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtApellidoMaterno, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(txtNumExterior)
-                                    .addComponent(txtAño)))
-                            .addComponent(txtEmail))))
-                .addGap(79, 79, 79))
+                                    .addComponent(comboBoxAño, 0, 141, Short.MAX_VALUE)
+                                    .addComponent(txtApellidoMaterno))))))
+                .addGap(67, 67, 67))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jLabel1)
-                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(30, 30, 30)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,12 +279,12 @@ public class CapturarDatos extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(comboBoxDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,11 +297,22 @@ public class CapturarDatos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(btnVerContraseña)
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(btnSiguiente)
                     .addComponent(btnAtras)
-                    .addComponent(btnSiguiente))
-                .addGap(48, 48, 48))
+                    .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -210,59 +320,60 @@ public class CapturarDatos extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
+        
+
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    private void guardarNombres() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/banco";
-        String usuario = "root";
-        String contraseña = "2004";
-        
+    private Nombre crearNombre() {
+
+        Nombre nombre = new Nombre();
         String[] nombres = separarNombres();
+        nombre.setPrimerNombre(nombres[0]);
+        nombre.setSegundoNombre(nombres[1]);
+        nombre.setApellidoPaterno(txtApellidoPaterno.getText());
+        nombre.setApellidoMaterno(txtApellidoMaterno.getText());
+        nombre.setIdNombre(idNombre++);
 
-        try (Connection conexion = DriverManager.getConnection(url, usuario, contraseña)) {
-            conexion.setAutoCommit(false);
-            String sql = "INSERT INTO NOMBRE VALUES (?,?,?,?)";
-            try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-                preparedStatement.setString(1, nombres[0]);
-                preparedStatement.executeUpdate();
+        return nombre;
 
-                preparedStatement.setString(2,  nombres[1]);
-                preparedStatement.executeUpdate();
-
-                preparedStatement.setString(3,  txtApellidoPaterno.getText());
-                preparedStatement.executeUpdate();
-                
-                preparedStatement.setString(4,  txtApellidoMaterno.getText());
-                preparedStatement.executeUpdate();
-            }
-            conexion.commit();;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-    
-    private void guardarDomicilio() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/banco";
-        String usuario = "root";
-        String contraseña = "2004";
 
-        try (Connection conexion = DriverManager.getConnection(url, usuario, contraseña)) {
-            conexion.setAutoCommit(false);
-            String sql = "INSERT INTO DOMICILIO VALUES (?,?,?)";
-            try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-                preparedStatement.setString(1, txtCP.getText());
-                preparedStatement.executeUpdate();
+    private Domicilio crearDomicilio() {
 
-                preparedStatement.setString(2, txtCalle.getText()  );
-                preparedStatement.executeUpdate();
+        Domicilio domicilio = new Domicilio();
+        domicilio.setCalle(txtCalle.getText());
+        domicilio.setCodigoPostal(Integer.parseInt(txtCP.getText()));
+        domicilio.setIdDomicilio(idDomicilio++);
 
-                preparedStatement.setString(3,  txtCalle.getText());
-                preparedStatement.executeUpdate();
-            }
-            conexion.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return domicilio;
+
+    }
+
+    private Cliente crearCliente() {
+
+        Cliente cliente = new Cliente();
+        cliente.setIdCliente(idCliente++);
+        cliente.setFechaNacimiento((comboBoxAño.getSelectedItem() + "/" + comboBoxMes.getSelectedItem() + "/" + comboBoxDia.getSelectedItem()));
+        cliente.setIdDomicilio(idDomicilio);
+        cliente.setIdNombre(idNombre);
+        cliente.setEmail(txtEmail.getText());
+
+        return cliente;
+
+    }
+
+    private Cuenta crearCuenta() {
+        LocalDate fechaActual = LocalDate.now();
+        Cuenta cuenta = new Cuenta();
+        cuenta.setUsuario(txtUsuario.getText());
+        cuenta.setFechaApertura(String.valueOf(fechaActual));
+        cuenta.setContraseña(txtContraseña.getText());
+        cuenta.setIdCliente(idCliente);
+        cuenta.setIdCuenta(idCuenta);
+        cuenta.setSaldo(0);
+
+        return cuenta;
+
     }
 
     private String[] separarNombres() {
@@ -283,6 +394,100 @@ public class CapturarDatos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
+
+    private void comboBoxDiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxDiaMousePressed
+// Obtén una referencia al modelo de datos actual del JComboBox
+        comboBoxDia.setEnabled(true);
+        int diasMes = obtenerDiasEnMes(comboBoxMes.getSelectedItem().toString());
+        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+// Agrega los días del mes al modelo de datos
+        for (int i = 1; i <= diasMes; i++) {
+            modelo.addElement(String.valueOf(i));
+        }
+// Establece el modelo actualizado en el JComboBox
+        comboBoxDia.setModel(modelo);
+
+
+    }//GEN-LAST:event_comboBoxDiaMousePressed
+
+    private void comboBoxMesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxMesMouseClicked
+        // Crear JComboBox para los meses
+        comboBoxDia.removeAllItems();
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>(meses);
+
+        comboBoxMes.setModel(modelo);
+
+
+    }//GEN-LAST:event_comboBoxMesMouseClicked
+
+    private void comboBoxAñoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxAñoMouseClicked
+        // TODO add your handling code here:
+        Calendar calendario = Calendar.getInstance();
+        int añoActual = calendario.get(Calendar.YEAR);
+        int añoEdadMinima = añoActual - 18;
+        int añoEdadMaxima = añoActual - 120;
+
+        DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+
+        for (int i = añoEdadMinima; i >= añoEdadMaxima; i--) {
+            modelo.addElement(String.valueOf(i));
+        }
+
+// Establece el modelo en el JComboBox
+        comboBoxAño.setModel(modelo);
+
+        if (comboBoxAño.getSelectedItem() == null || comboBoxMes.getSelectedItem() == null) {
+            comboBoxDia.setEnabled(false);
+        }
+
+
+    }//GEN-LAST:event_comboBoxAñoMouseClicked
+
+    private void btnVerContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerContraseñaActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnVerContraseñaActionPerformed
+
+    private void btnVerContraseñaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerContraseñaMousePressed
+        // TODO add your handling code here:
+        
+        
+        txtContraseña.setEchoChar((char) 0);
+        btnVerContraseña.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                btnVerContraseña.setEnabled(false); // Deshabilitar el botón al hacer clic
+                temporizador.start(); // Iniciar el temporizador para habilitar el botón después de un tiempo
+            }
+        });
+temporizador = new Timer(2000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                btnVerContraseña.setEnabled(true); // Habilitar el botón después de 3 segundos
+                temporizador.stop();
+                txtContraseña.setEchoChar('*');
+                // Detener el temporizador después de habilitar el botón
+            }
+        });
+    }//GEN-LAST:event_btnVerContraseñaMousePressed
+    private int obtenerDiasEnMes(String mes) {
+        GregorianCalendar calendario = new GregorianCalendar();
+        int anioActual = Integer.parseInt(comboBoxAño.getSelectedItem().toString());
+
+        switch (mes) {
+            case "Febrero":
+                return calendario.isLeapYear(anioActual) ? 29 : 28;
+            case "Abril":
+            case "Junio":
+            case "Septiembre":
+            case "Noviembre":
+                return 30;
+            default:
+                return 31;
+        }
+    }
+
+    // Función para obtener el número de días en un mes específico
     /**
      * @param args the command line arguments
      */
@@ -311,36 +516,40 @@ public class CapturarDatos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CapturarDatos().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnVerContraseña;
+    private javax.swing.JComboBox<String> comboBoxAño;
+    private javax.swing.JComboBox<String> comboBoxDia;
+    private javax.swing.JComboBox<String> comboBoxMes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField txtApellidoMaterno;
     private javax.swing.JTextField txtApellidoPaterno;
-    private javax.swing.JTextField txtAño;
     private javax.swing.JTextField txtCP;
     private javax.swing.JTextField txtCalle;
-    private javax.swing.JTextField txtDia;
+    private javax.swing.JPasswordField txtConfirmarContraseña;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtMes;
+    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumExterior;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
