@@ -4,18 +4,13 @@
  */
 package persistencia;
 
-import java.sql.Connection;
-import presentacion.Cliente;
-
 /**
  *
  * @author elimo
  */
 public interface IClienteDAO {
     
-    public Cliente insertarCliente(Cliente cliente, Connection conexion) throws PersistenciaException;
     
-    public Cliente generarUsuario() throws PersistenciaException;
     
     
 }

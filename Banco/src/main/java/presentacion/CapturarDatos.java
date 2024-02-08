@@ -11,12 +11,18 @@ import entidadesPOJO.Cliente;
 import entidadesPOJO.Cuenta;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import persistencia.ClienteDTO;
 
 /**
  *
@@ -24,14 +30,15 @@ import javax.swing.Timer;
  */
 public class CapturarDatos extends javax.swing.JFrame {
 
-    private int idNombre = 0;
-    private int idDomicilio = 0;
-    private int idCliente = 0;
-    private int idCuenta = 0;
+    private int idNombre ;
+    private int idDomicilio;
+    private int idCliente;
+    private int idCuenta;
     private Timer temporizador;
 
     /**
      * Creates new form CapturarDatos
+     * @param frame
      */
     public CapturarDatos(JFrame frame) {
         initComponents();
@@ -111,12 +118,6 @@ public class CapturarDatos extends javax.swing.JFrame {
         jLabel1.setText("Registrarte como cliente");
 
         jLabel3.setText("Apellido Paterno:");
-
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Apellido Materno:");
 
@@ -320,11 +321,41 @@ public class CapturarDatos extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
-        
+        // Verificar si algún campo está vacío
+if (txtCP.getText().isEmpty() || 
+    txtCalle.getText().isEmpty() || 
+    txtNumExterior.getText().isEmpty() || 
+    txtEmail.getText().isEmpty() || 
+    txtNombre.getText().isEmpty() || 
+    txtApellidoPaterno.getText().isEmpty() || 
+    txtApellidoMaterno.getText().isEmpty() || 
+    txtUsuario.getText().isEmpty() || 
+    txtContraseña.getPassword().length == 0 || 
+    txtConfirmarContraseña.getPassword().length == 0) {
+    // Al menos un campo está vacío
+    JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+} else{
+    ClienteDTO cliente = new ClienteDTO();
+    try {
+        cliente.guardarNombres(crearNombre());
+        cliente.guardarDomicilio(crearDomicilio());
+        cliente.guardarCliente(crearCliente(), idNombre, idDomicilio);
+        cliente.guardarCuenta(crearCuenta(), idCliente);
+         JOptionPane.showMessageDialog(this, "Bienvenido,¡te has ingresado con exito!", "Bienvenido"+" "+txtNombre.getText(), JOptionPane.PLAIN_MESSAGE);
+    } catch (SQLException ex) {
+        Logger.getLogger(CapturarDatos.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+}
+
+if(!txtContraseña.getText().equals(txtConfirmarContraseña.getText()))
+
+        JOptionPane.showMessageDialog(this, "La contraseña no coincide, porfavor verifique", "Contraseña no coincide", JOptionPane.WARNING_MESSAGE);
 
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private Nombre crearNombre() {
+        idNombre++;
 
         Nombre nombre = new Nombre();
         String[] nombres = separarNombres();
@@ -332,34 +363,73 @@ public class CapturarDatos extends javax.swing.JFrame {
         nombre.setSegundoNombre(nombres[1]);
         nombre.setApellidoPaterno(txtApellidoPaterno.getText());
         nombre.setApellidoMaterno(txtApellidoMaterno.getText());
-        nombre.setIdNombre(idNombre++);
+        nombre.setIdNombre(idNombre);
 
         return nombre;
 
     }
 
     private Domicilio crearDomicilio() {
+        
+        idDomicilio++;
 
         Domicilio domicilio = new Domicilio();
         domicilio.setCalle(txtCalle.getText());
         domicilio.setCodigoPostal(Integer.parseInt(txtCP.getText()));
-        domicilio.setIdDomicilio(idDomicilio++);
-
+        domicilio.setIdDomicilio(idDomicilio);
         return domicilio;
 
     }
 
     private Cliente crearCliente() {
 
+        idCliente++;
         Cliente cliente = new Cliente();
-        cliente.setIdCliente(idCliente++);
-        cliente.setFechaNacimiento((comboBoxAño.getSelectedItem() + "/" + comboBoxMes.getSelectedItem() + "/" + comboBoxDia.getSelectedItem()));
+        cliente.setIdCliente(idCliente);
+        cliente.setFechaNacimiento(comboBoxAño.getSelectedItem() + "-" + comboBoxDia.getSelectedItem() + "-" + obtenerDiasEnMes((String) comboBoxMes.getSelectedItem()));
         cliente.setIdDomicilio(idDomicilio);
         cliente.setIdNombre(idNombre);
         cliente.setEmail(txtEmail.getText());
 
+        
         return cliente;
 
+    }
+    
+    private int obtenerNumeroMes(String nombreMes) {
+        // Convertir el nombre del mes a mayúsculas para que sea insensible a mayúsculas/minúsculas
+        nombreMes = nombreMes.toUpperCase();
+        
+        // Obtener el número del mes usando el enum Month de Java 8
+        switch (nombreMes) {
+            case "ENERO":
+                return Month.JANUARY.getValue();
+            case "FEBRERO":
+                return Month.FEBRUARY.getValue();
+            case "MARZO":
+                return Month.MARCH.getValue();
+            case "ABRIL":
+                return Month.APRIL.getValue();
+            case "MAYO":
+                return Month.MAY.getValue();
+            case "JUNIO":
+                return Month.JUNE.getValue();
+            case "JULIO":
+                return Month.JULY.getValue();
+            case "AGOSTO":
+                return Month.AUGUST.getValue();
+            case "SEPTIEMBRE":
+                return Month.SEPTEMBER.getValue();
+            case "OCTUBRE":
+                return Month.OCTOBER.getValue();
+            case "NOVIEMBRE":
+                return Month.NOVEMBER.getValue();
+            case "DICIEMBRE":
+                return Month.DECEMBER.getValue();
+            default:
+                // Si el nombre del mes no es válido, devolver -1 o lanzar una excepción según sea necesario
+                return -1;
+        }
     }
 
     private Cuenta crearCuenta() {
@@ -372,6 +442,7 @@ public class CapturarDatos extends javax.swing.JFrame {
         cuenta.setIdCuenta(idCuenta);
         cuenta.setSaldo(0);
 
+        idCuenta++;
         return cuenta;
 
     }
@@ -389,10 +460,6 @@ public class CapturarDatos extends javax.swing.JFrame {
         Menu menu = new Menu();
         menu.setVisible(true);
     }//GEN-LAST:event_btnAtrasActionPerformed
-
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
 
 
     private void comboBoxDiaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboBoxDiaMousePressed
@@ -452,8 +519,7 @@ public class CapturarDatos extends javax.swing.JFrame {
 
     private void btnVerContraseñaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerContraseñaMousePressed
         // TODO add your handling code here:
-        
-        
+
         txtContraseña.setEchoChar((char) 0);
         btnVerContraseña.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -461,7 +527,7 @@ public class CapturarDatos extends javax.swing.JFrame {
                 temporizador.start(); // Iniciar el temporizador para habilitar el botón después de un tiempo
             }
         });
-temporizador = new Timer(2000, new ActionListener() {
+        temporizador = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 btnVerContraseña.setEnabled(true); // Habilitar el botón después de 3 segundos
                 temporizador.stop();
