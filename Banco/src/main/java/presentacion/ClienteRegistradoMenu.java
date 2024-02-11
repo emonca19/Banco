@@ -4,16 +4,26 @@
  */
 package presentacion;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import persistencia.ConexionBD;
+
 /**
  *
  * @author elimo
  */
 public class ClienteRegistradoMenu extends javax.swing.JFrame {
 
+    private int idCuenta;
+
     /**
      * Creates new form ClienteRegistradoMenu
      */
-    public ClienteRegistradoMenu() {
+    public ClienteRegistradoMenu(int idCuenta) {
+        this.idCuenta = idCuenta;
+        txtSaldo.setText(Integer.toString(obtenerCampoSaldo()));
         initComponents();
         setLocationRelativeTo(this);
     }
@@ -68,6 +78,7 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         jLabel4.setText("$");
 
+        txtSaldo.setEditable(false);
         txtSaldo.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         txtSaldo.setBorder(null);
         txtSaldo.addActionListener(new java.awt.event.ActionListener() {
@@ -158,22 +169,13 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
 
     private void txtSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoActionPerformed
         // TODO add your handling code here:
+       
+
     }//GEN-LAST:event_txtSaldoActionPerformed
-
-    private void btnTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferenciaActionPerformed
-        // TODO add your handling code here:
-        dispose();
-        GenerarTransferencia trans = new GenerarTransferencia(this);
-        trans.setVisible(true);
-    }//GEN-LAST:event_btnTransferenciaActionPerformed
-
-    private void btnFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFolioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFolioActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -184,6 +186,14 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void btnTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTransferenciaActionPerformed
+
+    private void btnFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFolioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFolioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,11 +223,29 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClienteRegistradoMenu().setVisible(true);
+       
+    }
+
+    private int obtenerCampoSaldo() {
+        ConexionBD conexionBD = new ConexionBD();
+        String sql = "SELECT SALDO FROM CUENTA WHERE IDCLIENTE = ?";
+
+        try (Connection conexion = conexionBD.crearConexion(); PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, idCuenta);
+
+            try (ResultSet result = preparedStatement.executeQuery()) {
+                if (result.next()) {
+                    int saldo = result.getInt(1);
+                    return saldo;
+                }
             }
-        });
+        } catch (SQLException e) {
+            e.getStackTrace();
+        }
+
+        return 0;
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

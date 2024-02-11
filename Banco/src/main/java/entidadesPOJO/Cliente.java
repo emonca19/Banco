@@ -3,25 +3,65 @@ package entidadesPOJO;
 import java.sql.Date;
 
 public class Cliente {
-
     private int idCliente;
-    private int idNombre;
-    private int idDomicilio;
-    private String fechaNacimiento;
     private String email;
-
-    // Constructores
+    private String fechaNacimiento;
+    private int codigoPostal;
+    private String calle;
+    private int numero;
+    private String primerNombre;
+    private String segundoNombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String estado;
+    private String ciudad;
+    
 
     public Cliente() {
-        // Constructor vacío
     }
 
-    public Cliente(int idCliente, int idNombre, int idDomicilio, String fechaNacimiento, String email) {
+    
+    // Constructor
+  
+
+    public Cliente(int idCliente, String email, String fechaNacimiento, int codigoPostal, String calle, int numero, String primerNombre, String segundoNombre, String apellidoPaterno, String apellidoMaterno, String estado, String ciudad) {
         this.idCliente = idCliente;
-        this.idNombre = idNombre;
-        this.idDomicilio = idDomicilio;
+        this.email = email;
         this.fechaNacimiento = fechaNacimiento;
-        this.email=email;
+        this.codigoPostal = codigoPostal;
+        this.calle = calle;
+        this.numero = numero;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.estado = estado;
+        this.ciudad = ciudad;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    // Getters y setters
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getEmail() {
@@ -32,32 +72,6 @@ public class Cliente {
         this.email = email;
     }
 
-    // Getters y Setters
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public int getIdNombre() {
-        return idNombre;
-    }
-
-    public void setIdNombre(int idNombre) {
-        this.idNombre = idNombre;
-    }
-
-    public int getIdDomicilio() {
-        return idDomicilio;
-    }
-
-    public void setIdDomicilio(int idDomicilio) {
-        this.idDomicilio = idDomicilio;
-    }
-
     public String getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -66,9 +80,66 @@ public class Cliente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    public int getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(int codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public String getPrimerNombre() {
+        return primerNombre;
+    }
+
+    public void setPrimerNombre(String primerNombre) {
+        this.primerNombre = primerNombre;
+    }
+
+    public String getSegundoNombre() {
+        return segundoNombre;
+    }
+
+    public void setSegundoNombre(String segundoNombre) {
+        this.segundoNombre = segundoNombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+}
+
     // Otros métodos si es necesario
 
-}
+
 
 
 
