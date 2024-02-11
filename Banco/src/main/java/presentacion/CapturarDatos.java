@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import persistencia.ClienteDAO;
 import persistencia.ClienteDTO;
 import persistencia.ConexionBD;
 
@@ -34,6 +35,22 @@ public class CapturarDatos extends javax.swing.JFrame {
     private Timer temporizador;
     private JDateChooser dateChooser;
 
+    Date fechaNacimiento;
+    String email;
+    String estadoRepublica;
+    String ciudad;
+    String nombresCliente;
+    String apellidoPaterno;
+    String apellidoMaterno;
+    String calle;
+    int codigoPostal;
+    int numExterior;
+    
+    String usuario;
+    String contraseña;
+    int idCuenta;
+    int idCliente;
+
     /**
      * Creates new form CapturarDatos
      *
@@ -42,6 +59,7 @@ public class CapturarDatos extends javax.swing.JFrame {
     public CapturarDatos(JFrame frame) {
 
         initComponents();
+        
 
         setLocationRelativeTo(frame);
         crearDateChooser();
@@ -87,6 +105,7 @@ public class CapturarDatos extends javax.swing.JFrame {
         txtCiudad = new javax.swing.JTextField();
         txtEstado = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
+        btnYaSoyCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,42 +166,49 @@ public class CapturarDatos extends javax.swing.JFrame {
 
         jLabel18.setText("Ciudad:");
 
+        btnYaSoyCliente.setText("Ya soy cliente");
+        btnYaSoyCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnYaSoyClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(btnAtras)
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtUsuario))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtContraseña)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSiguiente)
-                        .addGap(44, 44, 44))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btnVerContraseña)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(btnAtras)
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtUsuario))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtContraseña)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(btnVerContraseña)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSiguiente))))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(160, 160, 160))
+                        .addGap(58, 58, 58)
+                        .addComponent(btnYaSoyCliente))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -227,9 +253,15 @@ public class CapturarDatos extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnYaSoyCliente)
+                        .addGap(29, 29, 29)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,51 +309,13 @@ public class CapturarDatos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static int obtenerIdCliente(String gmail) {
-        int idCliente = -1;
-        ConexionBD conexionBD = new ConexionBD();
-        String sql = "SELECT IDCLIENTE FROM CLIENTE WHERE GMAIL = ?";
-
-        try (Connection conexion = conexionBD.crearConexion(); PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, gmail);
-
-            try (ResultSet result = preparedStatement.executeQuery()) {
-                if (result.next()) {
-                    idCliente = result.getInt("IDCLIENTE");
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CapturarDatos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return idCliente;
-    }
-
-    public static int obtenerIdCuenta(String usuario) {
-        int idUsuario = -1;
-        ConexionBD conexionBD = new ConexionBD();
-
-        String sql = "SELECT IDCUENTA FROM CUENTA WHERE USUARIO = ?";
-
-        try (Connection conexion = conexionBD.crearConexion(); PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, usuario);
-
-            try (ResultSet result = preparedStatement.executeQuery()) {
-                if (result.next()) {
-                    idUsuario = result.getInt("IDCUENTA");
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CapturarDatos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return idUsuario;
-    }
+    
 
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
         // Verificar si algún campo está vacío
+        
         if (txtCP.getText().isEmpty()
                 || txtCalle.getText().isEmpty()
                 || txtNumExterior.getText().isEmpty()
@@ -338,16 +332,19 @@ public class CapturarDatos extends javax.swing.JFrame {
             // Al menos un campo está vacío
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
         } else try {
-            if (verificarUsuario(txtUsuario.getText())) {
+            if (ClienteDTO.verificarUsuario(txtUsuario.getText())) {
                 JOptionPane.showMessageDialog(this, "Nombre de usuario ocupado", "Usuario existente", JOptionPane.WARNING_MESSAGE);
-            } else if (verificarUsuario(txtUsuario.getText()) == false) {
-                ClienteDTO cliente = new ClienteDTO();
+            } else if (ClienteDTO.verificarUsuario(txtUsuario.getText()) == false) {
+                ClienteDTO clienteDTO = new ClienteDTO();
+                ClienteDAO clienteDAO = new ClienteDAO();
+                inicializarDatos();
                 try {
-                    cliente.guardarCliente(crearCliente());
-                    cliente.guardarCuenta(crearCuenta(), obtenerIdCliente(txtEmail.getText()));
+                    clienteDTO.guardarCliente(clienteDAO.crearCliente(fechaNacimiento, email, estadoRepublica, ciudad, nombresCliente, apellidoPaterno, apellidoMaterno, calle, codigoPostal, numExterior));
+                    clienteDTO.guardarCuenta(clienteDAO.crearCuenta(usuario, contraseña, idCliente, idCuenta), idCliente);
+                    inicializarDatos();
                     JOptionPane.showMessageDialog(this, "Bienvenido,¡te has ingresado con exito!", "Bienvenido" + " " + txtNombre.getText(), JOptionPane.PLAIN_MESSAGE);
                     dispose();
-                    ClienteRegistradoMenu menu = new ClienteRegistradoMenu(obtenerIdCuenta(txtUsuario.getText()));
+                    ClienteRegistradoMenu menu = new ClienteRegistradoMenu(ClienteDTO.obtenerIdCuenta(txtUsuario.getText()));
                     menu.setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(CapturarDatos.class.getName()).log(Level.SEVERE, null, ex);
@@ -367,62 +364,14 @@ public class CapturarDatos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
+    // Obtener los valores de los componentes de la interfaz de usuario
+// Crear un objeto Cliente con los valores obtenidos
     private void crearDateChooser() {
         dateChooser = new JDateChooser();
         dateChooser.setBounds(171, 143, 142, 26);
 
 // Agregar el JDateChooser al contenedor
         add(dateChooser);
-    }
-
-    private boolean verificarUsuario(String nombreUsuario) throws SQLException {
-        ConexionBD conexionBD = new ConexionBD();
-
-        String sql = "Select count(*) from cuenta where usuario = ?";
-        try (Connection conexion = conexionBD.crearConexion(); PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, nombreUsuario);
-
-            try (ResultSet result = preparedStatement.executeQuery()) {
-                if (result.next()) {
-                    int cantidadUsuarios = result.getInt(1);
-                    return cantidadUsuarios > 0;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-
-    }
-
-    private Cliente crearCliente() {
-
-        Date fechaSeleccionada = dateChooser.getDate();
-
-        // Formatear la fecha en el formato "yyyy-MM-dd"
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaFormateada = sdf.format(fechaSeleccionada);
-
-        Cliente cliente = new Cliente();
-        cliente.setFechaNacimiento(fechaFormateada);
-        cliente.setEmail(txtEmail.getText());
-        cliente.setEstado(txtEstado.getText());
-        cliente.setCiudad(txtCiudad.getText());
-        String[] nombres = separarNombres();
-        cliente.setPrimerNombre(nombres[0]);
-        if (nombres.length != 1) {
-            cliente.setSegundoNombre(nombres[1]);
-        }
-        cliente.setApellidoPaterno(txtApellidoPaterno.getText());
-        cliente.setApellidoMaterno(txtApellidoMaterno.getText());
-        cliente.setCalle(txtCalle.getText());
-        cliente.setCodigoPostal(Integer.parseInt(txtCP.getText()));
-        cliente.setNumero(Integer.parseInt(txtNumExterior.getText()));
-
-        return cliente;
-
     }
 
     public void limitarCalendario() {
@@ -442,27 +391,24 @@ public class CapturarDatos extends javax.swing.JFrame {
         dateChooser.setSelectableDateRange(fechaMinima, fechaMaxima);
     }
 
-    private Cuenta crearCuenta() {
-        LocalDate fechaActual = LocalDate.now();
-        Cuenta cuenta = new Cuenta();
-        cuenta.setUsuario(txtUsuario.getText());
-        cuenta.setFechaApertura(String.valueOf(fechaActual));
-        cuenta.setContraseña(txtContraseña.getText());
-        cuenta.setIdCliente(obtenerIdCliente(txtEmail.getText()));
-        cuenta.setIdCuenta(obtenerIdCuenta(txtUsuario.getText()));
-        cuenta.setSaldo(0);
-
-        return cuenta;
-
+    private void inicializarDatos() {
+        fechaNacimiento = dateChooser.getDate();
+        email = txtEmail.getText();
+        estadoRepublica = txtEstado.getText();
+        ciudad = txtCiudad.getText();
+        nombresCliente = txtNombre.getText();
+        apellidoPaterno = txtApellidoPaterno.getText();
+        apellidoMaterno = txtApellidoMaterno.getText();
+        calle = txtCalle.getText();
+        codigoPostal = Integer.parseInt(txtCP.getText());
+        numExterior = Integer.parseInt(txtNumExterior.getText());
+        usuario = txtUsuario.getText();
+        contraseña = txtContraseña.getText();
+        idCliente = ClienteDTO.obtenerIdCliente(txtEmail.getText());
+        idCuenta = ClienteDTO.obtenerIdCuenta(txtUsuario.getText());
     }
 
-    private String[] separarNombres() {
-        String nombresTxt = txtNombre.getText();
-        String[] nombres = nombresTxt.split(" ");
 
-        return nombres;
-
-    }
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
         dispose();
@@ -490,6 +436,13 @@ public class CapturarDatos extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_btnVerContraseñaMousePressed
+
+    private void btnYaSoyClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYaSoyClienteActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        multicuentaCliente menu = new multicuentaCliente();
+        menu.setVisible(true);
+    }//GEN-LAST:event_btnYaSoyClienteActionPerformed
 
     // Función para obtener el número de días en un mes específico
     /**
@@ -526,6 +479,7 @@ public class CapturarDatos extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnVerContraseña;
+    private javax.swing.JButton btnYaSoyCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
