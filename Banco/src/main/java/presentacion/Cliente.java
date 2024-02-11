@@ -1,16 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package presentacion;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import persistencia.ConexionBD;
+import persistencia.ClienteDTO;
 
 /**
  *
@@ -139,13 +135,18 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtContraseñaActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // TODO add your handling code here:
-        if(verificarContraseña() && verificarUsuarioExistente()){
-            dispose();
-        ClienteRegistradoMenu menu = new ClienteRegistradoMenu(CapturarDatos.obtenerIdCliente(txtUsuario.getText()));
-        menu.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.WARNING_MESSAGE);
+        try {
+            // TODO add your handling code here:
+            if(ClienteDTO.verificarContraseña(txtContraseña.getText(), txtContraseña.getText()) && ClienteDTO.verificarUsuario(txtUsuario.getText())){
+                dispose();
+                ClienteDTO.obtenerIdCuenta(txtUsuario.getText());
+                ClienteRegistradoMenu menu = new ClienteRegistradoMenu(ClienteDTO.obtenerIdCuenta(txtUsuario.getText()));
+                menu.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_btnIngresarActionPerformed
@@ -161,65 +162,6 @@ public class Cliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
-    private boolean verificarUsuarioExistente() {
-    ConexionBD conexionBD = new ConexionBD();
-    String sql = "SELECT COUNT(*) AS total FROM CUENTA WHERE USUARIO = ?";
-
-    try (Connection conexion = conexionBD.crearConexion();
-         PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-
-        preparedStatement.setString(1, txtUsuario.getText());
-
-        try (ResultSet result = preparedStatement.executeQuery()) {
-            if (result.next()) {
-                // Obtener el total de filas que coinciden con el usuario en la base de datos
-                int total = result.getInt("total");
-
-                // Si el total es mayor que cero, significa que el usuario existe
-                return total > 0;
-            }
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Manejar la excepción adecuadamente
-    }
-
-    // Si hubo un error o no se encontró el usuario, devolver false
-    return false;
-}
-
-    
-    private boolean verificarContraseña() {
-    ConexionBD conexionBD = new ConexionBD();
-    String sql = "SELECT Contraseña FROM CUENTA WHERE USUARIO = ?";
-
-    try (Connection conexion = conexionBD.crearConexion();
-         PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-
-        preparedStatement.setString(1, txtUsuario.getText());
-
-        try (ResultSet result = preparedStatement.executeQuery()) {
-            if (result.next()) {
-                // Obtener la contraseña almacenada en la base de datos
-                String contraseñaAlmacenada = result.getString("Contraseña");
-
-                // Obtener la contraseña ingresada por el usuario
-                String contraseñaIngresada = new String(txtContraseña.getPassword());
-
-                // Verificar si las contraseñas coinciden
-                return contraseñaAlmacenada.equals(contraseñaIngresada);
-            }
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Manejar la excepción adecuadamente
-    }
-
-    // Si no se encontró el usuario o hubo un error en la base de datos, devolver false
-    return false;
-}
     
 
 

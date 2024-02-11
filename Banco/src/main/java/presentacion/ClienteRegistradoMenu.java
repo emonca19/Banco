@@ -22,9 +22,9 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
      * Creates new form ClienteRegistradoMenu
      */
     public ClienteRegistradoMenu(int idCuenta) {
+        initComponents();
         this.idCuenta = idCuenta;
         txtSaldo.setText(Integer.toString(obtenerCampoSaldo()));
-        initComponents();
         setLocationRelativeTo(this);
     }
 
@@ -228,7 +228,7 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
 
     private int obtenerCampoSaldo() {
         ConexionBD conexionBD = new ConexionBD();
-        String sql = "SELECT SALDO FROM CUENTA WHERE IDCLIENTE = ?";
+        String sql = "SELECT SALDO FROM CUENTA WHERE IDCUENTA = ?";
 
         try (Connection conexion = conexionBD.crearConexion(); PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
 
@@ -236,7 +236,7 @@ public class ClienteRegistradoMenu extends javax.swing.JFrame {
 
             try (ResultSet result = preparedStatement.executeQuery()) {
                 if (result.next()) {
-                    int saldo = result.getInt(1);
+                    int saldo = result.getInt("SALDO");
                     return saldo;
                 }
             }

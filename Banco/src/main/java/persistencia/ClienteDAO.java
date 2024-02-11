@@ -1,123 +1,91 @@
 package persistencia;
 
-import entidadesPOJO.Nombre;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import javax.swing.table.DefaultTableModel;
-import presentacion.Cliente;
+import entidadesPOJO.Cliente;
+import entidadesPOJO.Cuenta;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
-public class ClienteDAO implements IClienteDAO {
+public class ClienteDAO {
+    
+    //Creacion de cuentas y clientes
+    
+    
+    /**
+     * Metodo para crear una cuenta
+     * @param usuario Usuario asociado
+     * @param contraseña Contraseña asociada
+     * @param idCliente IdCliente asociado
+     * @param idCuenta IdCuenta asociada
+     * @return Cuenta creada
+     */
+    public Cuenta crearCuenta(String usuario, String contraseña,  int idCliente, int idCuenta ) {
+        LocalDate fechaActual = LocalDate.now();
+        Cuenta cuenta = new Cuenta();
+        cuenta.setUsuario(usuario);
+        cuenta.setFechaApertura(String.valueOf(fechaActual));
+        cuenta.setContraseña(contraseña);
+        cuenta.setIdCliente(idCliente);
+        cuenta.setIdCuenta(idCuenta);
+        cuenta.setSaldo(0);
 
-    @Override
-    public Cliente insertarCliente(Cliente cliente, Connection conexion) throws PersistenciaException {
-        
-        return null;
-        
-    }
+        return cuenta;
 
-    @Override
-    public Cliente generarUsuario() throws PersistenciaException {
-        
-        return null;
-        
     }
     
-    private void guardarNombres(Nombre nom) throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/banco";
-        String usuario = "root";
-        String contraseña = "2004";
+    /**
+     * Metodo que crea un cliente
+     * @param fechaNacimiento Fecha de nacimiento asociada
+     * @param email Email asociado
+     * @param EstadoRepublica Estado asociado
+     * @param ciudad Ciudad asociada
+     * @param nombresCliente Nombres asociados
+     * @param apellidoPaterno Apellido paterno asociado
+     * @param apellidoMaterno Apellido materno asociado
+     * @param calle Calle asociada
+     * @param codigoPostal CP asociado
+     * @param numExterior Num exterior asociado
+     * @return Cliente creado
+     */
+    public Cliente crearCliente(Date fechaNacimiento, String email, String EstadoRepublica, String ciudad, String nombresCliente, String apellidoPaterno, String apellidoMaterno, String calle, int codigoPostal, int numExterior) {
+
+
+        // Formatear la fecha en el formato "yyyy-MM-dd"
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaFormateada = sdf.format(fechaNacimiento);
+
+        Cliente cliente = new Cliente();
+        cliente.setFechaNacimiento(fechaFormateada);
+        cliente.setEmail(email);
+        cliente.setEstado(EstadoRepublica);
+        cliente.setCiudad(ciudad);
+        String[] nombres = separarNombres(nombresCliente);
+        cliente.setPrimerNombre(nombres[0]);
+        if (nombres.length != 1) {
+            cliente.setSegundoNombre(nombres[1]);
+        }
+        cliente.setApellidoPaterno(apellidoPaterno);
+        cliente.setApellidoMaterno(apellidoMaterno);
+        cliente.setCalle(calle);
+        cliente.setCodigoPostal(codigoPostal);
+        cliente.setNumero(numExterior);
+
+        return cliente;
         
-        String[] nombres = separarNombres();
 
-        try (Connection conexion = DriverManager.getConnection(url, usuario, contraseña)) {
-            conexion.setAutoCommit(false);
-            String sql = "INSERT INTO NOMBRE(PRIMER_NOMBRE, SEGUNDO_NOMBRE, APELLIDOPATERNO, APELLIDOMATERNO) VALUES (?,?,?,?)";
-            try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-                preparedStatement.setString(1, nombres[0]);
-
-                preparedStatement.setString(2,  nombres[1]);
-
-                preparedStatement.setString(3,  txtApellidoPaterno.getText());
-                
-                preparedStatement.setString(4,  txtApellidoMaterno.getText());
-                preparedStatement.executeUpdate();
-            }
-            conexion.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-
     
-    private void guardarDomicilio(Domicilio dom) throws SQLException {
-    String url = "jdbc:mysql://localhost:3306/banco";
-    String usuario = "root";
-    String contraseña = "2004";
-
-    try (Connection conexion = DriverManager.getConnection(url, usuario, contraseña)) {
-        String sql = "INSERT INTO DOMICILIO (CODIGO_POSTAL, CALLE, NUMERO) VALUES (?,?,?)";
-        try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-            // Establecer los valores de los parámetros
-            preparedStatement.setInt(1, Integer.parseInt(txtCP.getText()));
-            preparedStatement.setString(2, txtCalle.getText());
-            preparedStatement.setInt(3, Integer.parseInt(txtNumExterior.getText()));
-
-            // Ejecutar la inserción
-            preparedStatement.executeUpdate();
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}
-    
-    private void guardarCliente(Cliente cliente) throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/banco";
-        String usuario = "root";
-        String contraseña = "2004";
+    /**
+     * Metodo que separa nombres de un solo string separados por espacio
+     * @param nombre a separar
+     * @return Array de nombres separados
+     */
+    private String[] separarNombres(String nombre) {
         
-        String[] nombres = separarNombres();
+        String[] nombres = nombre.split(" ");
 
-        try (Connection conexion = DriverManager.getConnection(url, usuario, contraseña)) {
-            String sql = "INSERT INTO Cliente (GMAIL,FECHA_NACIMIENTO) VALUES (?, ?)";
-            try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
-                preparedStatement.setString(1, (comboBoxAño.getSelectedItem()+"/"+comboBoxMes.getSelectedItem()+"/"+comboBoxDia.getSelectedItem()));
-                preparedStatement.setString(2, txtEmail.getText());
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return nombres;
+
     }
 
-
-void listar() {
-    String sql = "select * from clientes where ESTA_ELIMINADO =0 ";
-    try {
-        cn = con.getConnection();
-        st = cn.createStatement();
-        rs = st.executeQuery(sql);
-        Object[] cliente = new Object[6]; 
-        modelo = (DefaultTableModel) TablaClientes.getModel();
-
-
-        while (rs.next()) {
-            cliente[0] = rs.getInt("IDCLIENTE");
-            cliente[1] = rs.getString("NOMBRE");
-            cliente[2] = rs.getString("APELLIDO_PATERNO");
-            cliente[3] = rs.getString("APELLIDO_MATERNO");
-            cliente[4] = rs.getString("ESTA_ELIMINADO");
-            cliente[5] = rs.getString("FECHA_HORA_REGISTRO");
-            
-            // Agregar la fila al modelo
-            modelo.addRow(cliente);
-        }
-        TablaClientes.setModel(modelo);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
 }
-}
-
-
