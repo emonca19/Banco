@@ -55,7 +55,6 @@ public class CuentaDAO implements ICuentaDAO{
             try (ResultSet resultSet = comando.getResultSet()) {
                 if (resultSet.next()) {
                     int folioGenerado = resultSet.getInt("folio");
-                    System.out.println("Folio generado: " + folioGenerado);
                     
                     String folios = "SELECT folio, contraseniaTemporal, monto, numeroCuenta, estado FROM retiroSinCuenta WHERE folio = ?";
                     try(Connection conexion2 = conexionBD.crearConexion();
@@ -84,7 +83,6 @@ public class CuentaDAO implements ICuentaDAO{
 
                 } else {
                     
-                    System.out.println("No se pudo recuperar el ID");
                     
                 }
             }
@@ -185,7 +183,6 @@ public class CuentaDAO implements ICuentaDAO{
                             comando2.setInt(2, contrasenia);
                             comando2.setInt(3, numeroCuenta);
                             
-                            System.out.println("Paso la asignacion");
                             
                             try (ResultSet result2 = comando2.executeQuery()) {
                             
@@ -235,6 +232,8 @@ public class CuentaDAO implements ICuentaDAO{
         
         String sql = "SELECT * FROM cuentas WHERE numeroCuenta = ?;";
         
+        System.out.println("AAAAAAAAAAAAA" + cuenta.getNumeroCuenta());
+        
         try (Connection conexion = conexionBD.crearConexion(); 
              PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
             
@@ -251,6 +250,7 @@ public class CuentaDAO implements ICuentaDAO{
                     cuentaDTO.setSaldo(resultSet.getInt("saldo"));
                     cuentaDTO.setIdCliente(resultSet.getInt("idCliente"));
                     cuentaDTO.setEstado(resultSet.getInt("estado"));
+                    
                     
                     return cuentaDTO;
                     
@@ -270,33 +270,48 @@ public class CuentaDAO implements ICuentaDAO{
     public CuentaDTO crearCuenta(Cuenta cuenta) {
     
         Logger logger = Logger.getLogger(CuentaDAO.class.getName());
-        String crearCuenta = """
-        CALL crearCuenta(?, ?);
-        """;
-        try{
-            
-            Connection conexion = conexionBD.crearConexion();
-            PreparedStatement comando = conexion.prepareStatement(crearCuenta);
-            
+        String crearCuenta = "CALL crearCuenta(?, ?);";
+
+        try (Connection conexion = conexionBD.crearConexion();
+             CallableStatement comando = conexion.prepareCall(crearCuenta)) {
+
             comando.setInt(1, cuenta.getSaldo());
             comando.setInt(2, cuenta.getIdCliente());
-            
-            int numeroRegistrosInsertados = comando.executeUpdate();
-            logger.log(Level.INFO, "Se crearon {0} cuentas", numeroRegistrosInsertados);
-            
-            ICuentaDAO cuentaDAO = new CuentaDAO(conexionBD);
-            
-            CuentaDTO cuentaDTO = cuentaDAO.buscarCuentaPorNumeroCuenta(cuenta);
-            return cuentaDTO;
-            
-            
-        }catch(SQLException ex){
-            
-            logger.log(Level.SEVERE, "No se pudo crear ninguna cuenta", ex);
-            
+
+            // Ejecutar el procedimiento almacenado
+            boolean resultado = comando.execute();
+
+            if (resultado) {
+                logger.log(Level.INFO, "Se creó la cuenta con éxito");
+
+                // Obtener el numeroCuenta directamente con una consulta SELECT
+                try (ResultSet resultSet = comando.getResultSet()) {
+                    if (resultSet.next()) {
+                        int numeroCuentaP = resultSet.getInt("numeroCuenta");
+
+                        cuenta.setNumeroCuenta(numeroCuentaP);
+
+                        ICuentaDAO cuentaDAO = new CuentaDAO(conexionBD);
+                        CuentaDTO cuentaDTO = cuentaDAO.buscarCuentaPorNumeroCuenta(cuenta);
+
+                        if (cuentaDTO == null) {
+                            return null;
+                        } else {
+                            return cuentaDTO;
+                        }
+                    }
+                }
+            } else {
+                logger.log(Level.SEVERE, "No se pudo crear la cuenta");
+            }
+
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error al ejecutar el procedimiento almacenado", ex);
         }
-        
+
         return null;
+        
+        
         
     }
 
