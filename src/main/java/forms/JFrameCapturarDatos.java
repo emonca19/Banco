@@ -328,7 +328,7 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
                 clienteDTO.setCalle(calle);
                 clienteDTO.setColonia(colonia);
                 clienteDTO.setCodigoPostal(codigoPostal);
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Ajusta el formato según tus necesidades
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Ajusta el formato según tus necesidades
                 String fechaNacimientoString = sdf.format(fechaNacimiento);
                 clienteDTO.setFechaNacimiento(fechaNacimientoString);
                 clienteDTO.setCorreo(correo);
