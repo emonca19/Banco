@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import persistencia.IClienteDAO;
 import persistencia.IConexionBD;
 import persistencia.PersistenciaException;
-import verificadores.VerificarClienteDTO;
+import verificadores.VerificarValidar;
 
 /**
  *
@@ -106,6 +106,17 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
         jLabel9.setText("Calle:");
 
         jLabel11.setText("Colonia:");
+
+        txtCodigoPostal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoPostalActionPerformed(evt);
+            }
+        });
+        txtCodigoPostal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoPostalKeyReleased(evt);
+            }
+        });
 
         jLabel12.setText("Codigo postal");
 
@@ -313,7 +324,7 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
         }else {
             //verifica que el usuario no este ocupado
             
-            VerificarClienteDTO verificar = new VerificarClienteDTO();
+            VerificarValidar verificar = new VerificarValidar();
             
             Cliente cliente = new Cliente(txtCorreo.getText(), contrasenia);
              
@@ -442,6 +453,22 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
     private void btnVerContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerContraseñaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVerContraseñaActionPerformed
+
+    private void txtCodigoPostalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoPostalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoPostalActionPerformed
+
+    private void txtCodigoPostalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoPostalKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtCodigoPostal.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtCodigoPostal.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtCodigoPostalKeyReleased
 
 //    // Función para obtener el número de días en un mes específico
 //    /**

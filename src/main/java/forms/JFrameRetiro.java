@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import persistencia.CuentaDAO;
 import persistencia.IConexionBD;
 import persistencia.ICuentaDAO;
+import verificadores.VerificarValidar;
 
 /**
  *
@@ -99,6 +100,17 @@ public class JFrameRetiro extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel3.setText("completa los siguientes campos para realizar el  ");
 
+        txtCantidadRetiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantidadRetiroActionPerformed(evt);
+            }
+        });
+        txtCantidadRetiro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadRetiroKeyReleased(evt);
+            }
+        });
+
         Jlabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         Jlabel3.setText("Saldo actual:");
 
@@ -133,9 +145,7 @@ public class JFrameRetiro extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
                 .addGap(226, 226, 226)
@@ -190,7 +200,15 @@ public class JFrameRetiro extends javax.swing.JFrame {
     private void txtAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAceptarActionPerformed
         // TODO add your handling code here:
         
-        if(Integer.parseInt(txtCantidadRetiro.getText()) > cuentaDTO.getSaldo()){
+        VerificarValidar validar = new VerificarValidar();
+        
+        int numero = validar.validarNumeroCuenta(Integer.parseInt(txtNumeroCuenta.getText()));
+        
+        if(numero < 0){
+            
+            JOptionPane.showMessageDialog(this, "El numero de cuenta no existe", "ERROR!!", JOptionPane.ERROR_MESSAGE);
+            
+        }else if(Integer.parseInt(txtCantidadRetiro.getText()) > cuentaDTO.getSaldo()){
             
             JOptionPane.showMessageDialog(this, "No puedes retirar esa cantidad", "ERROR!!", JOptionPane.ERROR_MESSAGE);
             
@@ -223,6 +241,22 @@ public class JFrameRetiro extends javax.swing.JFrame {
     private void txtSaldoActualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSaldoActualActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSaldoActualActionPerformed
+
+    private void txtCantidadRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadRetiroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadRetiroActionPerformed
+
+    private void txtCantidadRetiroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadRetiroKeyReleased
+        // TODO add your handling code here:
+
+        if(!txtCantidadRetiro.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.ERROR_MESSAGE);
+            txtCantidadRetiro.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtCantidadRetiroKeyReleased
 
 //    /**
 //     * @param args the command line arguments

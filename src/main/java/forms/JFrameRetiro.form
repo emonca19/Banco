@@ -159,6 +159,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCantidadRetiro">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCantidadRetiroActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCantidadRetiroKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="Jlabel3">
       <Properties>

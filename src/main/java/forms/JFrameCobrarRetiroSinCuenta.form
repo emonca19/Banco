@@ -112,7 +112,6 @@
                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNumeroCuenta" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
@@ -141,6 +140,7 @@
     <Component class="javax.swing.JTextField" name="txtNumeroCuenta">
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNumeroCuentaActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNumeroCuentaKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -179,6 +179,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFolio">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtFolioKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -213,6 +216,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtContraseniaTemporal">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtContraseniaTemporalKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombre">
       <Events>

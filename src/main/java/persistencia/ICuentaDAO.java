@@ -65,6 +65,7 @@ public interface ICuentaDAO {
      * @return 1 si se verifico el retiro -1 en caso contrario
      */
     public int verificarRetiroSinCuenta(int folio, int contrasenia, int numeroCuenta);
+   
     
     /**
      *

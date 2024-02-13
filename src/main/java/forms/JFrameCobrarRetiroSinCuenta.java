@@ -67,6 +67,11 @@ public class JFrameCobrarRetiroSinCuenta extends javax.swing.JFrame {
                 txtNumeroCuentaActionPerformed(evt);
             }
         });
+        txtNumeroCuenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNumeroCuentaKeyReleased(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel4.setText("Número de cuenta:");
@@ -89,6 +94,12 @@ public class JFrameCobrarRetiroSinCuenta extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabel1.setText("Hola,");
 
+        txtFolio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtFolioKeyReleased(evt);
+            }
+        });
+
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel7.setText("Contraseña temporal:");
 
@@ -100,6 +111,12 @@ public class JFrameCobrarRetiroSinCuenta extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel8.setText("Folio de retiro:");
+
+        txtContraseniaTemporal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtContraseniaTemporalKeyReleased(evt);
+            }
+        });
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +197,6 @@ public class JFrameCobrarRetiroSinCuenta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(txtNumeroCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
@@ -262,6 +278,42 @@ public class JFrameCobrarRetiroSinCuenta extends javax.swing.JFrame {
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtNumeroCuentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroCuentaKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtNumeroCuenta.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtNumeroCuenta.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtNumeroCuentaKeyReleased
+
+    private void txtFolioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFolioKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtFolio.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtFolio.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtFolioKeyReleased
+
+    private void txtContraseniaTemporalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseniaTemporalKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtContraseniaTemporal.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtContraseniaTemporal.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtContraseniaTemporalKeyReleased
 
 //    /**
 //     * @param args the command line arguments

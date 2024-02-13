@@ -16,7 +16,7 @@ import persistencia.ClienteDAO;
 import persistencia.ConexionBD;
 import persistencia.IClienteDAO;
 import persistencia.IConexionBD;
-import verificadores.VerificarClienteDTO;
+import verificadores.VerificarValidar;
 
 /**
  *
@@ -148,7 +148,7 @@ public class JFrameVerificarCliente extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // TODO add your handling code here:
         
-        VerificarClienteDTO verificar = new VerificarClienteDTO();
+        VerificarValidar verificar = new VerificarValidar();
         
         char[] passwordChars = txtContraseña.getPassword();
         String password = new String(passwordChars);

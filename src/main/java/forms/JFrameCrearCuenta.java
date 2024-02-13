@@ -72,6 +72,12 @@ public class JFrameCrearCuenta extends javax.swing.JFrame {
 
         jLabel4.setText("Contraseña: ");
 
+        txtSaldo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSaldoKeyReleased(evt);
+            }
+        });
+
         btnCrear.setText("Crear");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -176,6 +182,18 @@ public class JFrameCrearCuenta extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtSaldoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSaldoKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtSaldo.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtSaldo.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtSaldoKeyReleased
 
 //    /**
 //     * @param args the command line arguments

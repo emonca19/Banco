@@ -16,6 +16,7 @@ import persistencia.IClienteDAO;
 import persistencia.IConexionBD;
 import persistencia.ICuentaDAO;
 import persistencia.PersistenciaException;
+import verificadores.VerificarValidar;
 
 /**
  *
@@ -138,6 +139,11 @@ public class JFrameTransferencia extends javax.swing.JFrame {
         txtNumeroCuentaReceptor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNumeroCuentaReceptorActionPerformed(evt);
+            }
+        });
+        txtNumeroCuentaReceptor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNumeroCuentaReceptorKeyReleased(evt);
             }
         });
 
@@ -293,7 +299,16 @@ public class JFrameTransferencia extends javax.swing.JFrame {
 
     private void txtAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAceptarActionPerformed
             
-        if(Integer.parseInt(txtMontoEnviar.getText()) > cuentaDTO.getSaldo()){
+        VerificarValidar verificar = new VerificarValidar();
+        
+        int validar = verificar.validarNumeroCuenta(Integer.parseInt(txtNumeroCuentaReceptor.getText()));
+        
+        if(validar <= 0){
+            
+            JOptionPane.showMessageDialog(this, "El numero de cuenta no existe", "ERROR!!", JOptionPane.ERROR_MESSAGE);
+            txtNumeroCuentaReceptor.setText("");
+            
+        }else if(Integer.parseInt(txtMontoEnviar.getText()) > cuentaDTO.getSaldo()){
             
             JOptionPane.showMessageDialog(this, "No puedes transferir esa cantidad", "ERROR!!", JOptionPane.ERROR_MESSAGE);
             
@@ -306,13 +321,18 @@ public class JFrameTransferencia extends javax.swing.JFrame {
                 // TODO add your handling code here:
 
                 int saldoNuevo = cuentaDAO.transferenciaDinero(cuentaDTO.getNumeroCuenta(), Integer.parseInt(txtNumeroCuentaReceptor.getText()), Integer.parseInt(txtMontoEnviar.getText()));
-                cuentaDTO.setSaldo(saldoNuevo);
-                txtSaldo.setText(String.valueOf(cuentaDTO.getSaldo()));
-                JOptionPane.showMessageDialog(this, "La transferencia se realizó correctamente \nSaldo actual: " + cuentaDTO.getSaldo(), "EXITO!!", JOptionPane.INFORMATION_MESSAGE);
-                JFrameCliente jFrameCliente = new JFrameCliente(cuentaDTO);
-                jFrameCliente.setVisible(true);
-                dispose(); 
-
+                if(saldoNuevo == -1){
+                    
+                    JOptionPane.showMessageDialog(this, "No se pudo realizar la transferencia", "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                    
+                }else{
+                    cuentaDTO.setSaldo(saldoNuevo);
+                    txtSaldo.setText(String.valueOf(cuentaDTO.getSaldo()));
+                    JOptionPane.showMessageDialog(this, "La transferencia se realizó correctamente \nSaldo actual: " + cuentaDTO.getSaldo(), "EXITO!!", JOptionPane.INFORMATION_MESSAGE);
+                    JFrameCliente jFrameCliente = new JFrameCliente(cuentaDTO);
+                    jFrameCliente.setVisible(true);
+                    dispose(); 
+                }
             } catch (PersistenciaException ex) {
 
                 Logger.getLogger(JFrameTransferencia.class.getName()).log(Level.SEVERE, null, ex);
@@ -353,6 +373,11 @@ public class JFrameTransferencia extends javax.swing.JFrame {
             
                 
             
+        }else if(!txtMontoEnviar.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtMontoEnviar.setText("");
+            
         }else {    
          
             int saldoActual = cuentaDTO.getSaldo();
@@ -375,6 +400,18 @@ public class JFrameTransferencia extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_txtMontoEnviarKeyReleased
+
+    private void txtNumeroCuentaReceptorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroCuentaReceptorKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtNumeroCuentaReceptor.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtNumeroCuentaReceptor.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtNumeroCuentaReceptorKeyReleased
 
 //    /**
 //     * @param args the command line arguments
