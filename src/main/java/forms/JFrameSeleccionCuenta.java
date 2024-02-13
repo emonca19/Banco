@@ -19,11 +19,12 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class JFrameSeleccionCuenta extends javax.swing.JFrame {
 
     private IConexionBD conexionBD;
+    private ClienteDTO clienteDTO;
     
     /**
      * Creates new form JFrameSeleccionCuenta
@@ -32,6 +33,7 @@ public class JFrameSeleccionCuenta extends javax.swing.JFrame {
         initComponents();
         
         this.conexionBD = conexionBD;
+        this.clienteDTO = clienteDTO;
         imprimirTbla(clienteDTO.getId());
         
         tblCuentas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -61,6 +63,10 @@ public class JFrameSeleccionCuenta extends javax.swing.JFrame {
         
     }
 
+    /**
+     *
+     * @param idCliente
+     */
     public void imprimirTbla(int idCliente){
         
         Logger logger = Logger.getLogger(JFrameSeleccionCuenta.class.getName());
@@ -227,7 +233,7 @@ public class JFrameSeleccionCuenta extends javax.swing.JFrame {
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
         
-        JFrameCrearCuenta jFrameCrearCuenta = new JFrameCrearCuenta(this, conexionBD);
+        JFrameCrearCuenta jFrameCrearCuenta = new JFrameCrearCuenta(this, conexionBD, clienteDTO);
         jFrameCrearCuenta.setVisible(true);
         this.dispose();
         

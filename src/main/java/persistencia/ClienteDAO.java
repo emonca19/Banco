@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Amos Heli Olguin Quiroz
+
+ */
 public class ClienteDAO implements IClienteDAO {
 
     private IConexionBD conexionBD;
@@ -21,6 +26,11 @@ public class ClienteDAO implements IClienteDAO {
         
     }
 
+    /**
+     *
+     * @param cuentaDTO
+     * @return
+     */
     @Override
     public ClienteDTO buscarPorCuenta(CuentaDTO cuentaDTO) {
         
@@ -29,7 +39,6 @@ public class ClienteDAO implements IClienteDAO {
              PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
             preparedStatement.setInt(1, cuentaDTO.getIdCliente());
             
-            System.out.println("antes del if");
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -58,8 +67,12 @@ public class ClienteDAO implements IClienteDAO {
         
     }
 
-    
-    
+    /**
+     *
+     * @param correo
+     * @param contrasenia
+     * @return
+     */
     @Override
     public ClienteDTO buscarPorCorreoContrasenia(String correo, String contrasenia) {
         
@@ -69,12 +82,12 @@ public class ClienteDAO implements IClienteDAO {
             preparedStatement.setString(1, correo);
             preparedStatement.setString(2, contrasenia);
             
-            System.out.println("antes del if");
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     // Crear un objeto Cliente con los datos de la base de datos
                     ClienteDTO clienteDTO = new ClienteDTO();
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     clienteDTO.setId(resultSet.getInt("id"));
                     clienteDTO.setFechaNacimiento(resultSet.getString("fechaNacimiento"));
                     clienteDTO.setNombres(resultSet.getString("nombres"));
@@ -87,10 +100,11 @@ public class ClienteDAO implements IClienteDAO {
                     clienteDTO.setCorreo(correo);
                     clienteDTO.setContrasenia(contrasenia);
                     
-                    System.out.println("si cliente completo");
                     
                     return clienteDTO;
                 }
+                
+                
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Manejo adecuado de la excepción en la práctica
@@ -116,6 +130,11 @@ public class ClienteDAO implements IClienteDAO {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     *
+     * @param clienteDTO
+     * @return
+     */
     @Override
     public ClienteDTO guardar(ClienteDTO clienteDTO) {
     
@@ -153,13 +172,21 @@ public class ClienteDAO implements IClienteDAO {
     
     }
 
-    
-    
+    /**
+     *
+     * @param cliente
+     * @return
+     */
     @Override
     public ClienteDTO editar(ClienteDTO cliente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     *
+     * @param cliente
+     * @return
+     */
     @Override
     public ClienteDTO eliminar(ClienteDTO cliente) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -2,6 +2,10 @@ package entidadesPOJO;
 
 import java.util.Date;
 
+/**
+ *
+ * @author Amos Heli Olguin Quiroz
+ */
 public class Cuenta {
     
     private int numeroCuenta;

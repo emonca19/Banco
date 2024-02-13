@@ -6,7 +6,7 @@ package entidadesPOJO;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class Folio {
     

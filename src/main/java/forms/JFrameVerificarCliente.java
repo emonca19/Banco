@@ -152,35 +152,27 @@ public class JFrameVerificarCliente extends javax.swing.JFrame {
         
         char[] passwordChars = txtContraseña.getPassword();
         String password = new String(passwordChars);
-        
-        
         Cliente cliente = new Cliente(txtCorreo.getText(), password);
         
-        System.out.println(password);
-        
-        if(verificar.verificarCorreoExistente(cliente) == true){
+        if(verificar.verificarCorreoExistente(cliente) == true && verificar.verificarContraseña(cliente) == true){
             
-            System.out.println("si correo");
-            
-            if(verificar.verificarContraseña(cliente) == true){
-                
-                System.out.println("si contrasenia");
-                
-                
                 IConexionBD conexionBD = new ConexionBD();
                 IClienteDAO clienteDAO = new ClienteDAO(conexionBD);
                 ClienteDTO clienteDTO;
                 clienteDTO = clienteDAO.buscarPorCorreoContrasenia(txtCorreo.getText(), password);
-
-                
-                
+                JOptionPane.showMessageDialog(this, "Hola " + clienteDTO.getNombres() + ", Bienvenido de nuevo!!", "HOLA", JOptionPane.INFORMATION_MESSAGE);
                 JFrameSeleccionCuenta seleccionCuenta = new JFrameSeleccionCuenta(conexionBD, clienteDTO);
                 seleccionCuenta.setVisible(true);
                 this.dispose();
-            }
             
-        }else{
-            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.WARNING_MESSAGE);
+        }else if(verificar.verificarCorreoExistente(cliente) != true && verificar.verificarContraseña(cliente) != true){
+            
+            JOptionPane.showMessageDialog(this, "Correo y contraseña incorrectos", "Error", JOptionPane.WARNING_MESSAGE);
+            
+        }else if(verificar.verificarContraseña(cliente) != true && verificar.verificarCorreoExistente(cliente) == true){
+            
+            JOptionPane.showMessageDialog(this, "Contraseña incorrecta", "Error", JOptionPane.WARNING_MESSAGE);
+        
         }
         
     }//GEN-LAST:event_btnIngresarActionPerformed

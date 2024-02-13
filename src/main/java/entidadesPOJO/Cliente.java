@@ -2,6 +2,10 @@ package entidadesPOJO;
 
 import java.sql.Date;
 
+/**
+ *
+ * @author Amos Heli Olguin Quiroz
+ */
 public class Cliente {
     
     private int id;

@@ -14,7 +14,7 @@ import persistencia.ConexionBD;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class VerificarClienteDTO {
     
@@ -24,6 +24,11 @@ public class VerificarClienteDTO {
         
     }
     
+    /**
+     *
+     * @param cliente
+     * @return true si el correo existe falso en caso contrario
+     */
     public boolean verificarCorreoExistente(Cliente cliente) {
         ConexionBD conexionBD = new ConexionBD();
         String sql = "SELECT COUNT(*) AS total FROM clientes WHERE correo = ?";
@@ -53,6 +58,11 @@ public class VerificarClienteDTO {
     
     }
     
+    /**
+     *
+     * @param cliente
+     * @return true si la contraseña existe, falso en caso contrario
+     */
     public boolean verificarContraseña(Cliente cliente) {
         ConexionBD conexionBD = new ConexionBD();
         String sql = "SELECT contrasenia FROM clientes WHERE correo = ?";

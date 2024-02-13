@@ -18,23 +18,25 @@ import persistencia.ICuentaDAO;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class JFrameCrearCuenta extends javax.swing.JFrame {
 
     private IConexionBD conexionBD;
     private ICuentaDAO cuentaDAO;
     private IClienteDAO clienteDAO;
+    private ClienteDTO clienteDTO;
     
     /**
      * Creates new form JFrameCrearCuenta
      */
-    public JFrameCrearCuenta(Frame frame, IConexionBD conexionBD) {
+    public JFrameCrearCuenta(Frame frame, IConexionBD conexionBD, ClienteDTO clienteDTO) {
         initComponents();
         
         this.conexionBD = conexionBD;
         cuentaDAO = new CuentaDAO(conexionBD);
         clienteDAO = new ClienteDAO(conexionBD);
+        this.clienteDTO = clienteDTO;
         
         setLocationRelativeTo(frame);
         
@@ -149,12 +151,19 @@ public class JFrameCrearCuenta extends javax.swing.JFrame {
         }else {
             
             ClienteDTO clienteDTO = clienteDAO.buscarPorCorreoContrasenia(txtCorreo.getText(), txtContrasenia.getText());
+            
             Cuenta cuenta = new Cuenta(Integer.parseInt(txtSaldo.getText()), clienteDTO.getId());
-            CuentaDTO cuentaDTO = cuentaDAO.crearCuenta(cuenta);
+            CuentaDTO cuentaDTO = new CuentaDTO();
+            cuentaDTO = cuentaDAO.crearCuenta(cuenta);
+            if(cuentaDTO == null){
+                
+                JOptionPane.showMessageDialog(this, "NULL", "ERROR!!", JOptionPane.ERROR_MESSAGE);
+                
+            }else{
             JFrameCliente jFrameCliente = new JFrameCliente(cuentaDTO);
             jFrameCliente.setVisible(true);
             this.dispose();
-            
+            }
         }
         
     }//GEN-LAST:event_btnCrearActionPerformed

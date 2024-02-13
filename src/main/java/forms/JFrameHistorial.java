@@ -17,7 +17,7 @@ import persistencia.IConexionBD;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class JFrameHistorial extends javax.swing.JFrame {
 
@@ -179,6 +179,12 @@ public class JFrameHistorial extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * @param idCuenta
+     * @param offset
+     * @param tipo
+     */
     public void imprimirTbla(int idCuenta, int offset, String tipo){
         
         Logger logger = Logger.getLogger(JFrameSeleccionCuenta.class.getName());

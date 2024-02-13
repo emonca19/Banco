@@ -50,6 +50,11 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
 
     private IConexionBD conexionBD;
 
+    /**
+     *
+     * @param frame
+     * @param conexionBD
+     */
     public JFrameCapturarDatos(JFrame frame, IConexionBD conexionBD) {
 
         initComponents();
@@ -337,11 +342,11 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
                 clienteDAO.guardar(clienteDTO);
                 inicializarDatos();
                 JOptionPane.showMessageDialog(this, "Bienvenido,¡te has ingresado con exito!", "Bienvenido" + " " + txtNombre.getText(), JOptionPane.PLAIN_MESSAGE);
-                dispose();
-                //entra a menu de cliente registrado
-                JFrameCrearCuenta jFrameCrearCuenta = new JFrameCrearCuenta(this, conexionBD);
-                jFrameCrearCuenta.setVisible(true);
+                JFrameSeleccionCuenta jFrameSeleccionarCuenta = new JFrameSeleccionCuenta(conexionBD, clienteDTO);
+                jFrameSeleccionarCuenta.setVisible(true);
                 this.dispose();
+                //entra a menu de cliente registrado
+                
                 
             }
         }
@@ -362,6 +367,10 @@ public final class JFrameCapturarDatos extends javax.swing.JFrame {
     }
 
     //limita las fechas del calendario solamente las peronas mayores a 18 y menores a 120 pueden crear una cuenta
+
+    /**
+     *
+     */
     public void limitarCalendario() {
         Calendar calendar = Calendar.getInstance();
         Date fechaActual = calendar.getTime();

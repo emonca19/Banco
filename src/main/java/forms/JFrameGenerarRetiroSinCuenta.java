@@ -15,7 +15,7 @@ import persistencia.ICuentaDAO;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class JFrameGenerarRetiroSinCuenta extends javax.swing.JFrame {
 

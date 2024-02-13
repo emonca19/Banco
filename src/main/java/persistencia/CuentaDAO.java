@@ -20,18 +20,30 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
+
+
  */
 public class CuentaDAO implements ICuentaDAO{
 
     private IConexionBD conexionBD;
     
+    /**
+     *
+     * @param conexionBD
+     */
     public CuentaDAO(IConexionBD conexionBD){
         
         this.conexionBD = conexionBD;
         
     }
 
+    /**
+     *
+     * @param monto
+     * @param numeroCuenta
+     * @return
+     */
     @Override
     public Folio generarFolioRetiroSinCuenta(int monto, int numeroCuenta) {
         
@@ -97,8 +109,14 @@ public class CuentaDAO implements ICuentaDAO{
         
     }
 
-    
-    
+    /**
+     *
+     * @param nombre
+     * @param folio
+     * @param contrasenia
+     * @param numeroCuenta
+     * @return
+     */
     @Override
     public int efectuarRetiroSinCuenta(String nombre,int folio, int contrasenia, int numeroCuenta) {
     
@@ -154,9 +172,13 @@ public class CuentaDAO implements ICuentaDAO{
             
     }
     
-    
-    
-
+    /**
+     *
+     * @param folio
+     * @param contrasenia
+     * @param numeroCuenta
+     * @return
+     */
     @Override
     public int verificarRetiroSinCuenta(int folio, int contrasenia, int numeroCuenta) {
         
@@ -225,8 +247,11 @@ public class CuentaDAO implements ICuentaDAO{
         
     }
     
-    
-
+    /**
+     *
+     * @param cuenta
+     * @return
+     */
     @Override
     public CuentaDTO buscarCuentaPorNumeroCuenta(Cuenta cuenta) {
         
@@ -264,8 +289,11 @@ public class CuentaDAO implements ICuentaDAO{
         
     }
 
-    
-    
+    /**
+     *
+     * @param cuenta
+     * @return
+     */
     @Override
     public CuentaDTO crearCuenta(Cuenta cuenta) {
     
@@ -315,8 +343,12 @@ public class CuentaDAO implements ICuentaDAO{
         
     }
 
-    
-    
+    /**
+     *
+     * @param numeroCuenta
+     * @param cantidad
+     * @return
+     */
     @Override
     public int retirarDinero(int numeroCuenta, int cantidad) {
         
@@ -370,8 +402,11 @@ public class CuentaDAO implements ICuentaDAO{
                 
     }
     
-    
-    
+    /**
+     *
+     * @param cuentaDTO
+     * @return
+     */
     @Override
     public int revisarSaldo(CuentaDTO cuentaDTO) {
         
@@ -397,6 +432,14 @@ public class CuentaDAO implements ICuentaDAO{
         
     }
     
+    /**
+     *
+     * @param numeroCuentaEmisora
+     * @param numeroCuentaReceptora
+     * @param cantidad
+     * @return
+     * @throws PersistenciaException
+     */
     @Override
     public int transferenciaDinero(int numeroCuentaEmisora, int numeroCuentaReceptora, int cantidad) throws PersistenciaException {
     

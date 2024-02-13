@@ -39,6 +39,10 @@ public class JFrameRetiro extends javax.swing.JFrame {
        
     }
 
+    /**
+     *
+     * @param frame
+     */
     public JFrameRetiro(JFrame frame) {
         initComponents();
         setLocationRelativeTo(frame);

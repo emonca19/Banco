@@ -307,7 +307,7 @@ public class JFrameCliente extends javax.swing.JFrame {
 
     private void btnVerNumCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerNumCuentaActionPerformed
         // TODO add your handling code here:
-//        JOptionPane.showConfirmDialog(this, "Tu número de cuenta es: " + ClienteDTO.obtenerIdCuenta(usuario));
+        JOptionPane.showMessageDialog(this, "Tu número de cuenta es: " + cuentaDTO.getNumeroCuenta(), "Hola!!",  JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnVerNumCuentaActionPerformed
 
     private void btnOtraCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOtraCuentaActionPerformed

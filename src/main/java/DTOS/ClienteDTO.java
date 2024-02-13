@@ -1,6 +1,9 @@
 package DTOS;
 
-
+/**
+ *
+ * @author Amos Heli Olguin Quiroz
+ */
 public class ClienteDTO {
 
     private int id;
