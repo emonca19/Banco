@@ -11,7 +11,7 @@ import persistencia.CuentaDAO;
 
 /**
  *
- * @author PC
+ * @author Amos Heli Olguin Quiroz
  */
 public class Pruebas {
 

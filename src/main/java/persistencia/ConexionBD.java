@@ -13,7 +13,7 @@ final String SERVER = "localhost";
     final String BASE_DATOS = "proyectobanco";
     private final String CADENA_CONEXION = "jdbc:mysql://" + SERVER + "/" + BASE_DATOS;
     final String USUARIO = "root";
-    final String CONTRASEÑA = "amosmysql";
+    final String CONTRASEÑA = "Itson";
     
     /**
      *
