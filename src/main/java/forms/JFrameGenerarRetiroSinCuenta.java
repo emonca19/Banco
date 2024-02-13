@@ -72,6 +72,11 @@ public class JFrameGenerarRetiroSinCuenta extends javax.swing.JFrame {
                 txtMontoActionPerformed(evt);
             }
         });
+        txtMonto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMontoKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Folio:");
 
@@ -225,6 +230,18 @@ public class JFrameGenerarRetiroSinCuenta extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
+
+    private void txtMontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMontoKeyReleased
+        // TODO add your handling code here:
+        
+        if(!txtMonto.getText().matches("\\d+")){
+            
+            JOptionPane.showMessageDialog(this, "No puedes ingresar letras", "ERROR!!", JOptionPane.INFORMATION_MESSAGE);
+            txtMonto.setText("");
+            
+        }
+        
+    }//GEN-LAST:event_txtMontoKeyReleased
 
 //    /**
 //     * @param args the command line arguments
